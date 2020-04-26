@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block headblock %}
+<meta charset="utf-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<title>miRNAFinder</title>
+<link rel="stylesheet" href="{{ url_for('static',filename='assets/bootstrap/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+<link rel="stylesheet" href="{{ url_for('static',filename='assets/css/styles.min.css')}}">
+{% endblock %}
+{% block content %}
+<main class="page landing-page">
+    <section class="clean-block clean-form dark">
+        <div class="container">
+            <div class="block-heading">
+                <h2 class="text-info">miRNAFinder</h2>
+                <p>Description</p>
+            </div>
+            <form method="post" action="{{url_for('predict')}}">
+                <div class="form-group"><label for="name">Enter sequence here</label><input class="form-control item" type="text" id="sequence" name="sequence"></div>
+                <div class="text-center"><button class="btn btn-outline-primary btn-lg" type="submit">Predict</button></div>
+            </form>
+            {{prediction}}
+        </div>
+        
+    </section>
+</main>
+{% endblock %}
