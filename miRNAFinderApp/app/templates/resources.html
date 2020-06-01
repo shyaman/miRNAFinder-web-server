@@ -15,27 +15,26 @@
         <div
             class="collapse navbar-collapse" id="navcol-1">
             <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item" role="presentation"><a class="nav-link active" href="/">Home</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="resources">Resources</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link active" href="resources">Resources</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="about-us">About Us</a></li>
             </ul>
     </div>
     </div>
 </nav>
-<main class="page landing-page">
-    <section class="clean-block clean-form dark">
+<main class="page">
+    <section class="clean-block features">
         <div class="container">
             <div class="block-heading">
-                <h2 class="text-info">miRNAFinder</h2>
-                <p>Description</p>
+                <h2 class="text-info">Resources</h2>
             </div>
-            <form method="post" action="{{url_for('predict')}}">
-                <div class="form-group"><label for="name">Enter sequence here</label><input class="form-control item" type="text" id="sequence" name="sequence"></div>
-                <div class="text-center"><button class="btn btn-outline-primary btn-lg" type="submit">Predict</button></div>
-            </form>
-            {{prediction}}
+            <div class="row justify-content-start">
+                <div class="col-md-5 feature-box">
+                    <h4>Dataset</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
+                </div>
+            </div>
         </div>
-        
     </section>
 </main>
 {% endblock %}

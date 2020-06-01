@@ -6,18 +6,6 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-        <div class="container"><img class="img-fluid" src="{{ url_for('static',filename='assets/img/crest.png')}}" width="75rem" style="padding-right: 10px;"><a class="navbar-brand logo" href="#">miRNAFinder</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div
-                class="collapse navbar-collapse" id="navcol-1">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="index.html">Home</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="resources.html">Resources</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="about-us.html">About Us</a></li>
-                </ul>
-        </div>
-        </div>
-    </nav>
     {% block content %}{% endblock %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>

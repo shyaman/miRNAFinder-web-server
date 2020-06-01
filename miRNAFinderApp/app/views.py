@@ -6,6 +6,14 @@ from flask import request
 def index():
     return render_template('index.html')
 
+@app.route("/resources")
+def resources():
+    return render_template('resources.html')
+
+@app.route("/about-us")
+def about_us():
+    return render_template('about-us.html')
+
 @app.route("/predict", methods=['POST'])
 def predict():
     data = request.form.get('sequence')
