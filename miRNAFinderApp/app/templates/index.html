@@ -2,15 +2,19 @@
 {% block content %}
 <main class="page landing-page">
     <section class="clean-block clean-form">
-        <div class="container">
+        <div class="container" id="submit-seq">
             <div class="block-heading">
                 <h2 class="text-info">miRNAFinder</h2>
                 <p>Description</p>
             </div>
-            <form id="seq-form" action="">
-                <div class="form-group"><label for="name">Enter sequence here</label><input class="form-control" type="text" id="sequence" name="sequence" placeholder="saadsad"></div>
+            <form id="seq-form" action="{{ url_for('results') }}" method="post" enctype="multipart/form-data">
+                <div class="form-group"><label for="name">Enter sequence here</label><input class="form-control" type="text" id="sequence" name="sequence"></div>
                 <div class="text-center"><button class="btn btn-outline-primary" id="predict" type="button">Predict</button></div>
             </form>
+        </div>
+        <div class="block-heading" style="display: none;" id="calculating">
+            <h2 class="text-info">Making predictions...</h2>
+            <div id="loader-2" class="loader"><span></span><span></span><span></span></div>
         </div>
     </section>
 </main>

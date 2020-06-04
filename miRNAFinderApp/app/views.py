@@ -1,6 +1,7 @@
 from app import app, mlModel
 from flask import render_template
-from flask import request
+from flask import request,redirect, url_for
+import time
 
 @app.route("/",methods = ['GET'])
 def index():
@@ -14,10 +15,10 @@ def resources():
 def about_us():
     return render_template('about-us.html')
 
-@app.route("/predict", methods=['POST'])
+@app.route("/predict", methods=['POST','GET'])
 def predict():
     # Get the file from post request
-    f = request.json
+    f = request.get_json()
     print(f)
     # # Save the file to ./uploads
     # basepath = os.path.dirname(__file__)
@@ -32,9 +33,10 @@ def predict():
     # # pred_class = preds.argmax(axis=-1)            # Simple argmax
     # pred_class = decode_predictions(preds, top=1)   # ImageNet Decode
     # result = str(pred_class[0][0][1])               # Convert to string
-    return "None"
+    return "Send"
 
 
 @app.route("/results",methods = ['POST','GET'])
 def results():
+    time.sleep(5)
     return render_template('results.html')
