@@ -1,6 +1,6 @@
 from app import app, mlModel
 from flask import render_template
-from flask import request,redirect, url_for
+from flask import request, jsonify
 import time
 
 @app.route("/",methods = ['GET'])
@@ -15,26 +15,10 @@ def resources():
 def about_us():
     return render_template('about-us.html')
 
-@app.route("/predict", methods=['POST','GET'])
-def predict():
-    # Get the file from post request
-    f = request.get_json()
-    print(f)
-    # # Save the file to ./uploads
-    # basepath = os.path.dirname(__file__)
-    # file_path = os.path.join(
-    #     basepath, 'uploads', secure_filename(f.filename))
-    # f.save(file_path)
-
-    # # Make prediction
-    # preds = model_predict(file_path, model)
-
-    # # Process your result for human
-    # # pred_class = preds.argmax(axis=-1)            # Simple argmax
-    # pred_class = decode_predictions(preds, top=1)   # ImageNet Decode
-    # result = str(pred_class[0][0][1])               # Convert to string
-    return "Send"
-
+@app.route("/validate",methods = ['POST'])
+def validate():
+    validation = mlModel.fastaValidator(request.json['seq'])
+    return jsonify({'msg': 'success', 'valid': validation})
 
 @app.route("/results",methods = ['POST','GET'])
 def results():

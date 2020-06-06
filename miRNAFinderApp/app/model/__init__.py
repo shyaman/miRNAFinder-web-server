@@ -5,6 +5,7 @@ from Bio import SeqIO
 from io import StringIO
 import datetime
 import random, string
+import difflib
 
 scalerFile = "files/min_max_scaler.pkl"
 pcaFile = "files/pca.pkl"
@@ -26,11 +27,11 @@ class Model:
     def predict(self,seq):
         self.__createSession()
         assert self.__curSessionDir != ''
-        self.fastaS2F(seqStr)
+        self.fastaS2F(seq)
 
         return 
     
-    def __calcfeat(self,):
+    def __calcfeat(self):
         # to implement 
         return 
 
@@ -56,12 +57,6 @@ class Model:
         return
 
     def fastaValidator(self,seq):
-        faString = StringIO(seq)
+        faString = StringIO(seq.strip())
         fasta = SeqIO.parse(faString, "fasta")
         return any(fasta)  # False when `fasta` is empty, i.e. wasn't a FASTA file
-
-model = Model()
-s = """>gi|321257144|ref|XP_003193485.1| flap endonuclease [Cryptococcus gattii WM276]
-MGIKGLTGLLSENAPKCMKDHEMKTLFGRKVAIDASMSIYQFLIAVRQQDGQMLMNESGDVTSHLMGFFYRTIRMVDHGIKPCYIFDGKPPELKGSVLAKRFARREEAKEGEEEAKETGTAEDVDKLARRQVRVTREHNEECKKLLSLMGIPVVTAPGEAEAQCAELARAGKVYAAGSEDMDTLTFHSPILLRHLTFSEAKKMPISEIHLDVALRDLEMSMDQFIELCILLGCDYLEPCKGIGPKTALKLMREHGTLGKVVEHIRGKMAEKAEEIKAAADQLFLKPDVVNGDDLVLEWKQPDTEGLVEFLCRDKGFNEDRVRAGAAKLSKMLAAKQQGRLDGFFTVKPKEPAAKDAGKGKGKDTKGEKRKAEEKGAAKKKTKK"""
-model.predict()
-print(model.fastaS2F(s))
