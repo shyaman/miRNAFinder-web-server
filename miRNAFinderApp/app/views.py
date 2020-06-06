@@ -22,5 +22,7 @@ def validate():
 
 @app.route("/results",methods = ['POST','GET'])
 def results():
-    time.sleep(5)
+    seq = request.files['fafile'].read().decode("utf-8").strip()
+    seq = seq or request.form.get('sequence').strip()
+    mlModel.predict(seq)
     return render_template('results.html')

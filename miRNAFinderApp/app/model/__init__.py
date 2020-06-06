@@ -5,7 +5,7 @@ from Bio import SeqIO
 from io import StringIO
 import datetime
 import random, string
-import difflib
+import subprocess
 
 scalerFile = "files/min_max_scaler.pkl"
 pcaFile = "files/pca.pkl"
@@ -20,19 +20,23 @@ class Model:
         self.pca = pickle.load(open(os.path.join(os.path.dirname(__file__), pcaFile), 'rb'))
         self.ml_model = pickle.load(open(os.path.join(os.path.dirname(__file__), modelFile), 'rb'))
 
+        self.__sessionID = ''
         self.__curSessionDir = ''
-        self.__faPath = ''
         self.__featPath = ''
 
     def predict(self,seq):
         self.__createSession()
         assert self.__curSessionDir != ''
         self.fastaS2F(seq)
+        self.__calcfeat()
+        print("done claculation!")
 
+        print()
         return 
     
     def __calcfeat(self):
-        # to implement 
+        subprocess.run(["./calcfeat.sh",self.__sessionID, self.__curSessionDir],
+        cwd=os.path.join(os.path.dirname(__file__), "../features"))
         return 
 
     def __createSession(self):
@@ -44,12 +48,13 @@ class Model:
         dirName = os.path.join(os.path.dirname(__file__), sessionDir , sessionName)
         if not os.path.exists(dirName):
             os.makedirs(dirName)
-        self.__curSessionDir = dirName
+        self.__sessionID = sessionName
+        self.__curSessionDir = os.path.join(os.path.abspath(os.path.dirname(__file__)), sessionDir , sessionName)
         return 
     
     def fastaS2F(self,seqStr):
-        assert type(seqStr) is str
-        faString = StringIO(seqStr)
+        assert self.fastaValidator(seqStr) == True
+        faString = StringIO(seqStr.strip())
         fasta = SeqIO.parse(faString, "fasta")
         fasPath = os.path.join(self.__curSessionDir, "sequences.fa")
         SeqIO.write(fasta,fasPath, "fasta-2line")
@@ -60,3 +65,7 @@ class Model:
         faString = StringIO(seq.strip())
         fasta = SeqIO.parse(faString, "fasta")
         return any(fasta)  # False when `fasta` is empty, i.e. wasn't a FASTA file
+
+model = Model()
+model.predict(""">hsa-let-7a-1 MI0000060
+UGGGAUGAGGUAGUAGGUUGUAUAGUUUUAGGGUCACACCCACCACUGGGAGAUAACUAUACAAUCUACUGUCUUUCCUA""")
