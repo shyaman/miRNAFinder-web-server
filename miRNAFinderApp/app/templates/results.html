@@ -9,6 +9,17 @@
                 <span
                     class="d-block">Calculated features are available at&nbsp;<a id="features-link" href="#">Link</a></span>
             </div>
+            <div class="text-center"><a class="btn btn-primary" data-toggle="collapse" aria-expanded="false" aria-controls="predictedResults" href="#predictedResults" role="button" id="results">Show Results</a>
+                <div class="collapse" id="predictedResults">
+                    <div class="card" style="margin-top: 20px;">
+                        <div class="card-body"><div class="table-responsive">
+                        {% for table in tables %}
+                                    {{ table|safe }}
+                        {% endfor %}
+                        </div></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </main>

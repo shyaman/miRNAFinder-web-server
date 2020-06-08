@@ -6,6 +6,8 @@ from io import StringIO
 import datetime
 import random, string
 import subprocess
+import pandas as pd
+import numpy as np
 
 scalerFile = "files/min_max_scaler.pkl"
 pcaFile = "files/pca.pkl"
@@ -16,23 +18,37 @@ sessionDir = 'tmp/'
 class Model:
     def __init__(self):
         print('Initializing models....')
-        self.min_max_scaler = pickle.load(open(os.path.join(os.path.dirname(__file__), scalerFile), 'rb'))
-        self.pca = pickle.load(open(os.path.join(os.path.dirname(__file__), pcaFile), 'rb'))
-        self.ml_model = pickle.load(open(os.path.join(os.path.dirname(__file__), modelFile), 'rb'))
+        self.__min_max_scaler = pickle.load(open(os.path.join(os.path.dirname(__file__), scalerFile), 'rb'))
+        self.__pca = pickle.load(open(os.path.join(os.path.dirname(__file__), pcaFile), 'rb'))
+        self.__ml_model = pickle.load(open(os.path.join(os.path.dirname(__file__), modelFile), 'rb'))
 
         self.__sessionID = ''
         self.__curSessionDir = ''
-        self.__featPath = ''
 
     def predict(self,seq):
         self.__createSession()
         assert self.__curSessionDir != ''
         self.fastaS2F(seq)
         self.__calcfeat()
-        print("done claculation!")
+        print("Feature claculation success!")
+        if(not os.path.isfile(self.__curSessionDir+"/features.xlsx")):
+            return {'success':False}
 
-        print()
-        return 
+        feat = pd.read_excel(self.__curSessionDir+"/features.xlsx")
+        fFeat = feat.iloc[:,3:]
+        fFeat = self.__min_max_scaler.transform(fFeat)
+        fFeat = self.__pca.transform(fFeat)
+
+        classBinary = class_probabilities = self.__ml_model.predict(fFeat)
+        class_probabilities = self.__ml_model.predict_proba(fFeat)
+        confidence_score = class_probabilities[np.arange(len(classBinary)), classBinary]
+        finalPred = pd.DataFrame({'Seq-ID':feat.id,'Class':classBinary,'Confidence-Score':confidence_score})
+        finalPred.to_excel(self.__curSessionDir+"/predications.xlsx")
+
+        self.__sessionID = ''
+        self.__curSessionDir = ''
+        
+        return {'success':False, 'pred':finalPred}
     
     def __calcfeat(self):
         subprocess.run(["./calcfeat.sh",self.__sessionID, self.__curSessionDir],
@@ -66,6 +82,6 @@ class Model:
         fasta = SeqIO.parse(faString, "fasta")
         return any(fasta)  # False when `fasta` is empty, i.e. wasn't a FASTA file
 
-model = Model()
-model.predict(""">hsa-let-7a-1 MI0000060
-UGGGAUGAGGUAGUAGGUUGUAUAGUUUUAGGGUCACACCCACCACUGGGAGAUAACUAUACAAUCUACUGUCUUUCCUA""")
+# model = Model()
+# model.predict(""">hsa-let-7a-1 MI0000060
+# UGGGAUGAGGUAGUAGGUUGUAUAGUUUUAGGGUCACACCCACCACUGGGAGAUAACUAUACAAUCUACUGUCUUUCCUA""")

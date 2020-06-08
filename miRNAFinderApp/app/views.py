@@ -24,5 +24,5 @@ def validate():
 def results():
     seq = request.files['fafile'].read().decode("utf-8").strip()
     seq = seq or request.form.get('sequence').strip()
-    mlModel.predict(seq)
-    return render_template('results.html')
+    pred = mlModel.predict(seq)
+    return render_template('results.html',tables=[pred['pred'].to_html(classes='table', border=0, index=False, justify='inherit')])
