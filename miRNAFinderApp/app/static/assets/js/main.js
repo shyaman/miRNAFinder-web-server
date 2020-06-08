@@ -36,3 +36,9 @@ $('#predict').click(async function (e) {
     }
 
 });
+
+$('#results').click(function(){
+    $(this).text(function(i,old){
+        return old=='Show Results' ?  'Hide Results' : 'Show Results';
+    });
+});
