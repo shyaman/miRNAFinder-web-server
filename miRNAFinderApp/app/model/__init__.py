@@ -24,8 +24,18 @@ class Model:
 
         self.__sessionID = ''
         self.__curSessionDir = ''
+        self.__dataDir = os.path.join(os.path.abspath(os.path.dirname(__file__)), sessionDir)
+
+    def  getDataDir(self):
+        return self.__dataDir
+
+    def  getSessID(self):
+        return self.__sessionID
 
     def predict(self,seq):
+        self.__sessionID = ''
+        self.__curSessionDir = ''
+
         self.__createSession()
         assert self.__curSessionDir != ''
         self.fastaS2F(seq)
@@ -44,9 +54,6 @@ class Model:
         confidence_score = class_probabilities[np.arange(len(classBinary)), classBinary]
         finalPred = pd.DataFrame({'Seq-ID':feat.id,'Class':classBinary,'Confidence-Score':confidence_score})
         finalPred.to_excel(self.__curSessionDir+"/predications.xlsx")
-
-        self.__sessionID = ''
-        self.__curSessionDir = ''
         
         return {'success':False, 'pred':finalPred}
     
