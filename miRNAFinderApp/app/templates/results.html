@@ -5,9 +5,9 @@
         <div class="container">
             <div id="results" class="block-heading">
                 <h2 class="text-info">Results</h2>
-                <p style="margin-bottom: 16px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p><span class="d-block">Your predictions are available at&nbsp;<a id="prediction-link" href="{{ url_for('download_pred', filename=sID) }}">Link</a></span>
+                <p style="margin-bottom: 16px;">To view predictions, click 'Show Results' button. <br>You can download the predictions and calculated features from the below links.</p><span class="d-block">Prediction results:&nbsp;&nbsp;<a id="prediction-link" href="{{ url_for('download_pred', filename=sID) }}">Download</a></span>
                 <span
-                    class="d-block">Calculated features are available at&nbsp;<a id="features-link" href="{{ url_for('download_feat', filename=sID) }}">Link</a></span>
+                    class="d-block">Calculated features:&nbsp;&nbsp;<a id="features-link" href="{{ url_for('download_feat', filename=sID) }}">Download</a></span>
             </div>
             <div class="text-center"><a class="btn btn-primary" data-toggle="collapse" aria-expanded="false" aria-controls="predictedResults" href="#predictedResults" role="button" id="results">Show Results</a>
                 <div class="collapse" id="predictedResults">

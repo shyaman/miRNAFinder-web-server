@@ -6,12 +6,16 @@
             <div class="block-heading">
                 <h2 class="text-info">Resources</h2>
             </div>
-            <div class="row justify-content-start">
+            <div class="row justify-content-center">
                 <div class="col-md-5 feature-box">
-                    <h4>Dataset</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                </div>
+                    <h4>Dataset</h4><a class="d-block" href="{{ url_for('resourcesdw', filename='pDataset.fa') }}">Positive dataset</a><a class="d-block" href="{{ url_for('resourcesdw', filename='nDataset.fa') }}">Negative dataset</a><a class="d-block" href="{{ url_for('resourcesdw', filename='tDataset.zip') }}">Testing set</a></div>
+                <div
+                    class="col-md-5 feature-box">
+                    <h4>Calculated features</h4><a class="d-block" href="{{ url_for('resourcesdw', filename='pDatasetFeat.xlsx') }}">Positive dataset features</a><a class="d-block" href="{{ url_for('resourcesdw', filename='nDatasetFeat.xlsx') }}">Negative dataset features</a>
+                    <a
+                        class="d-block" href="{{ url_for('resourcesdw', filename='tDatasetFeat.zip') }}">Testing dataset features</a>
             </div>
+        </div>
         </div>
     </section>
 </main>

@@ -5,13 +5,14 @@
         <div class="container" id="submit-seq">
             <div class="block-heading">
                 <h2 class="text-info">miRNAFinder</h2>
-                <p>Description</p>
+                <p style="max-width: 500px;">miRNAFinder is a tool to identify potential pre-miRNAs for given sequences. This utilizes a machine learning model trained on a preprocessed dataset of miRBase v22.1. More resources can be found on the&nbsp;<a class="d-inline" href="{{ url_for('resources') }}">Resources</a>&nbsp;page.
+                </p>
             </div>
-            <form id="seq-form" action="{{ url_for('results') }}" method="post" enctype="multipart/form-data">
-                <div class="form-group"><label for="name">Enter sequence here or select the fasta format file</label><textarea class="form-control" id="sequence" name="sequence" style="font-size: 15px;" rows="4"></textarea></div><input type="file" id="fafile" name="fafile"
-                    style="font-size: 15px;margin-bottom: 5px;padding: 0px;">
-                <div class="text-center"><button class="btn btn-outline-primary" id="predict" type="button">Predict</button></div>
-            </form>
+            <form id="seq-form" action="{{ url_for('results') }}" method="post" enctype="multipart/form-data" style="max-width: 600px;">
+                <div class="form-group"><label for="name">Enter sequences in FASTA format</label><textarea class="form-control" id="sequence" name="sequence" style="font-size: 15px;" rows="4"></textarea></div><span class="d-inline-block">Or, upload file&nbsp;<input class="d-inline-block" type="file" id="fafile" name="fafile" style="font-size: 15px;margin-bottom: 5px;padding: 0px;"></span>
+                <div
+                    class="text-center"><button class="btn btn-outline-primary" id="predict" type="button">Predict</button></div>
+        </form>
         </div>
         <div id="calculating" class="block-heading" style="display: none;">
             <h2 class="text-info">Making predictions...</h2>
