@@ -17,8 +17,17 @@ def about_us():
 
 @app.route("/validate",methods = ['POST'])
 def validate():
-    validation = mlModel.fastaValidator(request.json['seq'])
-    return jsonify({'msg': 'success', 'valid': validation})
+    count = mlModel.fastaValidator(request.json['seq'])
+    if count>10:
+        validation = False
+        message = "Maximum number of sequences is 10!"
+    elif count>0:
+        validation = True
+        message = "Success!"
+    else :
+        validation = False
+        message = "Invalid input sequence(s)!"
+    return jsonify({'msg': message, 'valid': validation})
 
 @app.route("/results",methods = ['POST','GET'])
 def results():

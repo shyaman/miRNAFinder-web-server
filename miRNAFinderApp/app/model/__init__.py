@@ -49,10 +49,11 @@ class Model:
         fFeat = self.__min_max_scaler.transform(fFeat)
         fFeat = self.__pca.transform(fFeat)
 
-        classBinary = class_probabilities = self.__ml_model.predict(fFeat)
+        classBinary = self.__ml_model.predict(fFeat)
         class_probabilities = self.__ml_model.predict_proba(fFeat)
         confidence_score = class_probabilities[np.arange(len(classBinary)), classBinary]
         finalPred = pd.DataFrame({'Seq-ID':feat.id,'Class':classBinary,'Confidence-Score':confidence_score})
+        finalPred.replace({'Class': {0: "Not a pre-miRNA", 1: "A pre-miRNA"}},inplace=True)
         finalPred.to_excel(self.__curSessionDir+"/predications.xlsx")
         
         return {'success':False, 'pred':finalPred}
@@ -85,6 +86,10 @@ class Model:
         return
 
     def fastaValidator(self,seq):
+        # faString = StringIO(seq.strip())
+        # fasta = SeqIO.parse(faString, "fasta")
+        # print(any(fasta))
         faString = StringIO(seq.strip())
         fasta = SeqIO.parse(faString, "fasta")
-        return any(fasta)  # False when `fasta` is empty, i.e. wasn't a FASTA file
+        seqCount = sum(1 for _ in fasta)
+        return seqCount  # False when `fasta` is empty, i.e. wasn't a FASTA file
