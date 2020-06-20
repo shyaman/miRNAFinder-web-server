@@ -88,7 +88,3 @@ class Model:
         faString = StringIO(seq.strip())
         fasta = SeqIO.parse(faString, "fasta")
         return any(fasta)  # False when `fasta` is empty, i.e. wasn't a FASTA file
-
-# model = Model()
-# model.predict(""">hsa-let-7a-1 MI0000060
-# UGGGAUGAGGUAGUAGGUUGUAUAGUUUUAGGGUCACACCCACCACUGGGAGAUAACUAUACAAUCUACUGUCUUUCCUA""")
