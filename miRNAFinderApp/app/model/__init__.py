@@ -52,8 +52,8 @@ class Model:
         classBinary = self.__ml_model.predict(fFeat)
         class_probabilities = self.__ml_model.predict_proba(fFeat)
         confidence_score = class_probabilities[np.arange(len(classBinary)), classBinary]
-        finalPred = pd.DataFrame({'Seq-ID':feat.id,'Class':classBinary,'Confidence-Score':confidence_score})
-        finalPred.replace({'Class': {0: "Not a pre-miRNA", 1: "A pre-miRNA"}},inplace=True)
+        finalPred = pd.DataFrame({'Seq-ID':feat.id,'Prediction':classBinary,'Confidence-Score':confidence_score})
+        finalPred.replace({'Prediction': {0: "Not a pre-miRNA", 1: "A pre-miRNA"}},inplace=True)
         finalPred.to_excel(self.__curSessionDir+"/predications.xlsx")
         
         return {'success':False, 'pred':finalPred}
