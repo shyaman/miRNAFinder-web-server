@@ -77,7 +77,6 @@ class Model:
         return 
     
     def fastaS2F(self,seqStr):
-        assert self.fastaValidator(seqStr) == True
         faString = StringIO(seqStr.strip())
         fasta = SeqIO.parse(faString, "fasta")
         fasPath = os.path.join(self.__curSessionDir, "sequences.fa")
