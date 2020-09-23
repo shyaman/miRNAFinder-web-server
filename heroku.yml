@@ -2,4 +2,4 @@ build:
   docker:
     web: miRNAFinderApp/Dockerfile
 run:
-  web: uwsgi --http app.ini
+  web: uwsgi --http-socket app.ini
