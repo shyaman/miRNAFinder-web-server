@@ -6,7 +6,7 @@ Please replace `URL` in nginx.conf
 server {
     listen       80 default_server;
     listen       [::]:80 default_server;
-    server_name  localhost;
+    server_name  URL;
     root         /var/www/html;
 
     location / {
