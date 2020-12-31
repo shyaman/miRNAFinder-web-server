@@ -1,5 +1,0 @@
-build:
-  docker:
-    web: miRNAFinderApp/Dockerfile
-run:
-  web: uwsgi --http-socket :$PORT app.ini
