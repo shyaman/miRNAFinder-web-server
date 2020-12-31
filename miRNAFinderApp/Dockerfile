@@ -2,15 +2,20 @@ FROM python:3.7.2-stretch
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y default-jre
+RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y default-jre nginx
 WORKDIR /app
 
 ADD . /app
 
 RUN pip install -r requirements.txt
 
-# Install ViennaRNA
-ADD https://www.tbi.univie.ac.at/RNA/download/debian/debian_9_0/perl-rna_2.4.14-1_amd64.deb .
-RUN DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -y ./perl-rna_2.4.14-1_amd64.deb && rm perl-rna_2.4.14-1_amd64.deb
+COPY nginx.conf /etc/nginx
 
-CMD ["uwsgi", "app.ini"]
+# Install ViennaRNA
+RUN DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -y ./perl-rna_2.4.17-1_amd64.deb
+
+RUN rm Dockerfile nginx.conf perl-rna_2.4.17-1_amd64.deb requirements.txt
+RUN chown -R www-data:www-data /app
+
+RUN chmod +x ./start.sh
+CMD ["./start.sh"]
