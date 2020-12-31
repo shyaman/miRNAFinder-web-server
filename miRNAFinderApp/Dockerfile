@@ -7,8 +7,8 @@ WORKDIR /app
 
 ADD . /app
 ARG PORT=80
+RUN echo $PORT
 RUN pip install -r requirements.txt
-
 RUN envsubst '\$PORT' < nginx.conf > /etc/nginx/nginx.conf
 
 # Install ViennaRNA
