@@ -1,5 +1,5 @@
 {
-    "name": "heroku-docker-nginx-example",
+    "name": "miRNAFinder",
     "description": "A tool to identify potential pre-miRNAs for given sequences",
     "repository": "https://github.com/shyaman/miRNAFinder-web-server",
     "keywords": ["nginx", "docker", "flask"],
