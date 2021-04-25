@@ -1,0 +1,5 @@
+{
+    "build": { "dockerfile": "../miRNAFinderApp/Dockerfile" },
+    "extensions": ["dbaeumer.vscode-eslint"],
+    "forwardPorts": [80]
+  }
