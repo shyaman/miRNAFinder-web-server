@@ -6,4 +6,4 @@ if [ ! -d redis-stable/src ]; then
 fi
 cd redis-stable
 make
-nohup src/redis-server &> redis.log &
+src/redis-server &
