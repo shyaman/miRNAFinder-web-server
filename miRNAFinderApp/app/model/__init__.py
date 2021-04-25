@@ -48,7 +48,7 @@ def predict_class(self, seq):
                                 'status': "Extracting features..."})
 
     subprocess.run(["./calcfeat.sh",sessionID, curSessionDir],
-    cwd=os.path.join(os.path.dirname(__file__), "../features"))
+    cwd=os.path.join(app.root_path,'features'))
     print("Feature claculation success!")
     if(not os.path.isfile(curSessionDir+"/features.xlsx")):
         self.update_state(state='FAILURE')
