@@ -32,14 +32,13 @@ def predict_class(self, seq):
 
     sessionID = self.request.id
     curSessionDir = os.path.join(app.root_path,'static/outputs',sessionID)
-    print(curSessionDir)
     assert curSessionDir != ''
     if not os.path.exists(curSessionDir):
             os.makedirs(curSessionDir)
 
     faString = StringIO(seq.strip())
     fasta = SeqIO.parse(faString, "fasta")
-    fasPath = os.path.join(curSessionDir, "sequences.fa")
+    fasPath = os.path.join(app.root_path,'features/microPred/data',sessionID)
     SeqIO.write(fasta,fasPath, "fasta-2line")
     print("Success writing seq to path")
 
@@ -48,7 +47,7 @@ def predict_class(self, seq):
                                 'status': "Extracting features..."})
 
     subprocess.run(["./calcfeat.sh",sessionID, curSessionDir],
-    cwd=os.path.join(app.root_path,'features'))
+                cwd=os.path.join(app.root_path,'features'))
     print("Feature claculation success!")
     if(not os.path.isfile(curSessionDir+"/features.xlsx")):
         self.update_state(state='FAILURE')
