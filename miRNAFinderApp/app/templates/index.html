@@ -8,7 +8,7 @@
                 <p style="max-width: 500px;">miRNAFinder is a tool to identify potential pre-miRNAs for given sequences. This utilizes a machine learning model trained on a preprocessed dataset of miRBase v22.1. More resources can be found on the&nbsp;<a class="d-inline" href="{{ url_for('resources') }}">Resources</a>&nbsp;page. </p>
             </div>
             <form id="seq-form" method="post" enctype="multipart/form-data" style="max-width: 600px;">
-                <div class="form-group"><label for="name">Enter sequences in FASTA format</label><textarea class="form-control" id="sequence" name="sequence" style="font-size: 15px;" rows="4"></textarea><a id="examp" href="#" style="font-size: 15px;">Example sequences</a></div><span class="d-inline-block d-xl-flex align-items-xl-center">Or, upload a file&nbsp;&nbsp;<input class="form-control-file d-inline-block" type="file" id="fafile" name="fafile" style="font-size: 14px;width: 300px;"></span>
+                <div class="form-group"><label for="name">Enter sequences in FASTA format</label><textarea class="form-control" id="sequence" name="sequence" style="font-size: 15px;" rows="4"></textarea><a id="examp" style="font-size: 15px;color: var(--blue);">Example sequences</a></div><span class="d-inline-block d-xl-flex align-items-xl-center">Or, upload a file&nbsp;&nbsp;<input class="form-control-file d-inline-block" type="file" id="fafile" name="fafile" style="font-size: 14px;width: 300px;"></span>
                 <div class="text-center"><button class="btn btn-outline-primary" id="predict" type="button" style="margin-top: 20px;">Predict</button></div>
             </form>
         </div>
