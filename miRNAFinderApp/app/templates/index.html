@@ -2,22 +2,29 @@
 {% block content %}
 <main class="page landing-page">
     <section class="clean-block clean-form">
-        <div class="container" id="submit-seq">
+        <div class="container" id="submit-seq" style="margin-top: 20px;">
             <div class="block-heading">
                 <h2 class="text-info">miRNAFinder</h2>
-                <p style="max-width: 500px;">miRNAFinder is a tool to identify potential pre-miRNAs for given sequences. This utilizes a machine learning model trained on a preprocessed dataset of miRBase v22.1. More resources can be found on the&nbsp;<a class="d-inline" href="{{ url_for('resources') }}">Resources</a>&nbsp;page.
-                </p>
+                <p style="max-width: 500px;">miRNAFinder is a tool to identify potential pre-miRNAs for given sequences. This utilizes a machine learning model trained on a preprocessed dataset of miRBase v22.1. More resources can be found on the&nbsp;<a class="d-inline" href="{{ url_for('resources') }}">Resources</a>&nbsp;page. </p>
             </div>
-            <form id="seq-form" action="{{ url_for('results') }}" method="post" enctype="multipart/form-data" style="max-width: 600px;">
-                <div class="form-group"><label for="name">Enter sequences in FASTA format</label><textarea class="form-control" id="sequence" name="sequence" style="font-size: 15px;" rows="4"></textarea></div><span class="d-inline-block">Or, upload file&nbsp;<input class="d-inline-block" type="file" id="fafile" name="fafile" style="font-size: 15px;margin-bottom: 5px;padding: 0px;"></span>
-                <div
-                    class="text-center"><button class="btn btn-outline-primary" id="predict" type="button">Predict</button></div>
-        </form>
+            <form id="seq-form" method="post" enctype="multipart/form-data" style="max-width: 600px;">
+                <div class="form-group"><label for="name">Enter sequences in FASTA format</label><textarea class="form-control" id="sequence" name="sequence" style="font-size: 15px;" rows="4"></textarea><a id="examp" href="#" style="font-size: 15px;">Example sequences</a></div><span class="d-inline-block d-xl-flex align-items-xl-center">Or, upload a file&nbsp;&nbsp;<input class="form-control-file d-inline-block" type="file" id="fafile" name="fafile" style="font-size: 14px;width: 300px;"></span>
+                <div class="text-center"><button class="btn btn-outline-primary" id="predict" type="button" style="margin-top: 20px;">Predict</button></div>
+            </form>
         </div>
-        <div id="calculating" class="block-heading" style="display: none;">
-            <h2 class="text-info">Making predictions...</h2>
-            <div id="loader-2" class="loader"><span></span><span></span><span></span></div>
+        <div id="progress" style="margin: 80px;margin-top: 160px; display: none;">
+            <div class="col">
+                <h2 class="text-center text-info" id="status">Initiating...</h2>
+                <div class="progress" style="margin-top: 20px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"><span class="sr-only">0%</span></div>
+                </div>
+            </div>
         </div>
+        <form class="invisible" id="results-req" action="{{ url_for('results') }}" method="post"></form>
     </section>
 </main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static',filename='assets/js/results.min.js')}}"></script>
 {% endblock %}

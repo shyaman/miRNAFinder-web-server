@@ -5,9 +5,7 @@
         <div class="container">
             <div id="results" class="block-heading">
                 <h2 class="text-info">Results</h2>
-                <p style="margin-bottom: 16px;">To view predictions, click 'Show Results' button. <br>You can download the predictions and calculated features from the below links.</p><span class="d-block">Prediction results:&nbsp;&nbsp;<a id="prediction-link" href="{{ url_for('download_pred', filename=sID) }}">Download</a></span>
-                <span
-                    class="d-block">Calculated features:&nbsp;&nbsp;<a id="features-link" href="{{ url_for('download_feat', filename=sID) }}">Download</a></span>
+                <p style="margin-bottom: 16px;">To view predictions, click 'Show Results' button. <br>You can download the predictions and calculated features from the below links.</p><span class="d-block" style="margin-bottom: 20px;">Execution time is {{dur}}s </span><span class="d-block">Prediction results:&nbsp;&nbsp;<a id="prediction-link" href="{{ url_for('download_pred', task_id=tID) }}">Download</a></span><span class="d-block">Calculated features:&nbsp;&nbsp;<a id="features-link" href="{{ url_for('download_feat', task_id=tID) }}">Download</a></span>
             </div>
             <div class="text-center"><a class="btn btn-primary" data-toggle="collapse" aria-expanded="false" aria-controls="predictedResults" href="#predictedResults" role="button" id="results">Show Results</a>
                 <div class="collapse" id="predictedResults">
@@ -24,4 +22,4 @@
     </section>
 </main>
 {% endblock %}
-  
+

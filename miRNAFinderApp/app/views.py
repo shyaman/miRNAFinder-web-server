@@ -1,7 +1,8 @@
-from app import app, mlModel
+from app import app
 from flask import render_template, send_from_directory
-from flask import request, jsonify
+from flask import request, jsonify, url_for
 import time
+from app.model import predict_class, fastaValidator, resultsToHTML
 
 @app.route("/",methods = ['GET'])
 def index():
@@ -17,7 +18,7 @@ def about_us():
 
 @app.route("/validate",methods = ['POST'])
 def validate():
-    count = mlModel.fastaValidator(request.json['seq'])
+    count = fastaValidator(request.json['seq'])
     if count>10:
         validation = False
         message = "Maximum number of sequences is 10!"
@@ -29,24 +30,65 @@ def validate():
         message = "Invalid input sequence(s)!"
     return jsonify({'msg': message, 'valid': validation})
 
-@app.route("/results",methods = ['POST','GET'])
+
+@app.route("/results",methods = ['POST'])
 def results():
-    seq = request.files['fafile'].read().decode("utf-8").strip()
-    seq = seq or request.form.get('sequence').strip()
-    pred = mlModel.predict(seq)
-    sessionID = mlModel.getSessID()
-    return render_template('results.html',tables=[pred['pred'].to_html(classes='table', border=0, index=False, justify='inherit')],sID=sessionID)
+    task_id = request.form.get('task_id')
+    duration = request.form.get('duration')
+    predtab = resultsToHTML(task_id)
+    return render_template('results.html',tables=[predtab],tID=task_id, dur= duration)
 
-@app.route('/feat/<path:filename>', methods=['GET'])
-def download_feat(filename):
-    direc = mlModel.getDataDir() + '/' + filename
-    return send_from_directory(directory=direc, filename='features.xlsx',as_attachment=True)
+@app.route('/predict', methods=['POST'])
+def predict():
+    seq = request.json['seq']
+    task = predict_class.apply_async(args=[seq])
+    return jsonify({}), 202, {'Location': url_for('taskstatus',
+                                                  task_id=task.id)}
 
-@app.route('/pred/<path:filename>', methods=['GET'])
-def download_pred(filename):
-    direc = mlModel.getDataDir() + '/' + filename
-    return send_from_directory(directory=direc, filename='predications.xlsx',as_attachment=True)
+@app.route('/feat/<path:task_id>', methods=['GET'])
+def download_feat(task_id):
+    path = 'static/outputs/'+task_id
+    return send_from_directory(directory=path, filename='features.xlsx',as_attachment=True)
+
+@app.route('/pred/<path:task_id>', methods=['GET'])
+def download_pred(task_id):
+    path = 'static/outputs/'+task_id
+    return send_from_directory(directory=path, filename='predictions.xlsx',as_attachment=True)
 
 @app.route('/resourcesdw/<path:filename>', methods=['GET'])
 def resourcesdw(filename):
     return send_from_directory(directory='static/resources', filename=filename,as_attachment=True)
+
+
+@app.route('/status/<task_id>')
+def taskstatus(task_id):
+    task = predict_class.AsyncResult(task_id)
+    if task.state == 'PENDING':
+        # job did not start yet
+        response = {
+            'state': task.state,
+            'current': 0,
+            'total': 1,
+            'status': 'Pending...'
+        }
+    elif task.state != 'FAILURE':
+        response = {
+            'state': task.state,
+            'current': task.info.get('current', 0),
+            'total': task.info.get('total', 1),
+            'status': task.info.get('status', '')
+        }
+        if 'duration' in task.info:
+            response['task_id'] = task.info['task_id']
+            response['duration'] = task.info['duration']
+
+    else:
+        # something went wrong in the background job
+        response = {
+            'state': task.state,
+            'current': 1,
+            'total': 1,
+            'status': str(task.info),  # this is the exception raised
+        }
+    return jsonify(response)
+
