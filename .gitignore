@@ -17,7 +17,11 @@ _mailinglist
 docs/_build/
 .vscode
 __pycache__/
-tmp/
+outputs/
+miRNAFinderApp/redis-stable
+nohup.out
+*.log
+
 # Coverage reports
 htmlcov/
 .coverage
