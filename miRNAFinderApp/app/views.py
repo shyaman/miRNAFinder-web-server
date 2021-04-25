@@ -92,3 +92,6 @@ def taskstatus(task_id):
         }
     return jsonify(response)
 
+@app.route('/favicon.ico') 
+def favicon(): 
+    return send_from_directory(directory='static/assets/img', filename='favicon.ico', mimetype='image/vnd.microsoft.icon')
