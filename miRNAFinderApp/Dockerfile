@@ -16,7 +16,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -y ./perl
 RUN rm Dockerfile perl-rna_2.4.17-1_amd64.deb requirements.txt
 RUN chown -R www-data:www-data /app
 
-RUN chmod +x ./run-redish.sh
-RUN ./run-redish.sh
+RUN chmod +x ./run-redis.sh
+RUN ./run-redis.sh
 RUN chmod +x ./start.sh
 ENTRYPOINT ["./start.sh"]
