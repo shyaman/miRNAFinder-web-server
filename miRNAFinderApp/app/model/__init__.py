@@ -54,6 +54,12 @@ def predict_class(self, seq):
         self.update_state(state='FAILURE')
         return {'status': 'Failed!'}
     
+    os.remove(os.path.join(app.root_path,'features/microPred',sessionID+'_micropred.xlsx'))
+    os.remove(os.path.join(app.root_path,'features/microPred/data',sessionID))
+    os.remove(os.path.join(app.root_path,'features/microPred/data','all.'+sessionID+'-48.features'))
+    os.remove(os.path.join(app.root_path,'features/microPred/data','selected.'+sessionID+'.-21.features'))
+    os.remove(os.path.join(app.root_path,'features/motif',sessionID+'_motif.xlsx'))
+    os.remove(os.path.join(app.root_path,'features/triplet',sessionID+'_triplet.xlsx'))
 
     feat = pd.read_excel(curSessionDir+"/features.xlsx")
     fFeat = feat.iloc[:,3:]
