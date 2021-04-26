@@ -38,7 +38,7 @@ def predict_class(self, seq):
 
     faString = StringIO(seq.strip())
     fasta = SeqIO.parse(faString, "fasta")
-    fasPath = os.path.join(app.root_path,'features/microPred/data',sessionID)
+    fasPath = os.path.join(curSessionDir, "sequences.fa")
     SeqIO.write(fasta,fasPath, "fasta-2line")
     print("Success writing seq to path")
 
