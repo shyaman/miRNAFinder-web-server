@@ -15,7 +15,7 @@ Jinja2==2.11.3
 joblib==0.14.1
 kombu==5.0.2
 MarkupSafe==1.1.1
-numpy==1.18.3
+numpy==1.21.0
 openpyxl==3.0.3
 pandas==1.0.4
 prompt-toolkit==3.0.18
