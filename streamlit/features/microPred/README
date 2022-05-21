@@ -1,0 +1,92 @@
+microPred Version 1.0
+------------------------
+microPred program can be used to classify human pre-miRNAs from pseudo hairpins and other ncRNAs.
+---------------------------------------------------------------------------------------------
+Authors: Rukshan Batuwita and Vasile Palade, Computing Laboratory, University of Oxford.
+---------------------------------------------------------------------------------------------
+
+System requirements:
+---------------------
+- The current version of microPred predictor has been developed for linux platform (Redhat/Fedora).
+- Perl and java VM should be pre-installed.
+
+
+How to excute the microPred:
+-----------------------------
+1. Copy the input file containing the sequences to be classified into the 'microPred/data' directory.
+   The input file should contain the sequences in fasta format. Please do not keep empty lines in between the sequences 
+   or after the last sequence of the input file. Otherwise, this will cause problems when running the RNAfold program (Hofacker, 2003) 
+   used in the microPred package. (For an correctly formatted input fasta file see microPred/data/seq.fasta). 
+ 
+2. Execute the perl scipts 'microPred.pl' which is in the 'microPred/progs' directory as follows:
+   microPred/progs> perl microPred.pl [input_file]
+   Ex: microPred/progs>perl microPred.pl seq.fasta 
+
+   microPred.pl calls the corresponding scripts for the following tasks:
+    - to extract all the features.
+    - to isolate the best 21 features.
+    - to format the features into SVM input format.
+    - to scale the feature values.
+    - to predict the sequences either as pre-miRNAs or not by using the best SVM model developed in our research.
+      As the SVM predictor the LIBSVM(Chang and Lin, 2001) package is used.
+
+
+Important:
+---------------------------
+- To calculate zG,zD,zQ,zP and zF features, 1000 random sequence are generated for each original sequence following the method 
+  described in (Loong and Mishra, 2007). Therefore, in order to generate these random sequences, fold them, and calculate 
+  these z-features it might take a long time depending on the number of original sequences in the input file. 
+  Estimated time for this operation for 10 sequences is about 30mins. Therefore, we recommend to use an input file containing 
+  a fewer number of sequences (maximum of 100 sequences) in a single run.
+
+
+Results:
+-----------
+- All the features extracted from the sequences will be written to 'microPred/data/all.input_file.-48.features'.
+- The selected best 21 features will be written to 'microPred/data/selected.input_file.-21.features'.
+  These features are in the order[%(C+G),MFEI1,MFEI2,dG,dQ,dF,zD,NEFE,Diff,dS,dS/L,Avg_BP_Stems,(A-U)/L,(G-C)/L,(G-U)L,
+                                   %(A-U)/stems,%(G-C)/stems,%(G-U)/stems,MFEI3,MFEI4,Diversity]. 
+- The results of the predictions will be written to 'microPred/SVM/input_file.predictions'.
+  [Here +1 represent that the corresponding sequence has been predicted as a pre-miRNA candidate.
+       -1 represent that the corresponding sequence has been predicted as a negative candidate.]
+
+----------------------------------------------------------------------------------------------------------------------------
+         
+Additional Details about the different scripts used to assemble the microPred program:
+--------------------------------------------------------------------------
+- 'microPred/progs' directory contains all the scripts used to calculate the features and to format them.
+    - 'microPred/progs/miPred' directory contains the scripts for calculating miPred (Loong and Mishra, 2007)features. These scripts were written for 
+      (Loong and Mishra, 2007)and available at http://web.bii.a-star.edu.sg/~stanley/Publications/Supp_materials/06-002-supp.html
+    - 'microPred/progs/mfe14.java' and 'microPred/progs/mfe23.java' scripts for calculating the MFE-related features(written by us).
+    - 'microPred/progs/bpcount1.java' and 'microPred/progs/bpcount2.java' scripts for calculating the base pairs-related features(written by us).
+    - 'microPred/progs/RNAfold/RNAfold' for calculating RNAfold-related features(Hofacker, 2003).
+    - 'microPred/progs/RNAfoldfilter.java' for filtering RNAfold-related features(written by us).
+    - 'microPred/progs/melt.pl' for calculating the mfold-related features and taken from UNAfold package (Markham and Zuker, 2008).
+    - 'microPred/progs/Mfoldfilter.java' for filtering mfold-related features (written by us).
+    - 'microPred/progs/filter_all.java' for filtering all the extracted fetures (written by us). 
+    - 'microPred/progs/format1' for formatting features for SVM prediction (written by us).
+    
+- 'microPred/SVM' directory contains the scripts related to the SVM predictor.
+    - 'microPred/SVM/svm-scale' for scaling the feature values into [-1,+1] (Chang and Lin, 2001).
+    - 'microPred/SVM/svm-predict' for predicting sequences as pre-miRNAs or not (Chang and Lin, 2001).  
+
+- 'microPred/progs/microPred.pl' script glues all these programs together as the main program	.
+
+
+References:
+------------
+- Batuwita, R. and Palade, V. (2009) microPred: Effective classification of pre-miRNAs for human miRNA gene prediction. Bioinformatics, 25, 989-995, 2009.
+- Loong,K. and Mishra,S. (2007). De nove SVM classification of precursor microRNAs from genomic pseudo hairpins using global and intrinsic folding measures. 
+  Bioinformatics, 23(11),1321-1330.
+- Hofacker,I.L. (2003) Vienna RNA secondary structure server. Nucleic Acids Res., 31, 3429-3431.
+- Markham, N. R. and Zuker, M. (2005) DINAMelt web server for nucleic acid melting prediction. Nucleic Acids Res., 33, W577-W581.
+- Markham, N. R. and Zuker, M. (2008) UNAFold: software for nucleic acid folding and hybriziation.In Keith, J. M., editor, Bioinformatics,  
+  Volume II. Structure, Functions and Applications, number 453 in Methods in Molecular Biology, chapter 1, pages 3–31. Humana Press, Totowa, NJ. ISBN 978-1-60327-428-9.
+- Chang,C. and Lin,C.-J (2001) LIBSVM: a library for support vector machines. Available http://www.csie.ntu.edu.tw/~cjlin/libsvm.
+
+   
+  
+
+
+
+

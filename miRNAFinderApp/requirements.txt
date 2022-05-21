@@ -33,3 +33,4 @@ wcwidth==0.2.5
 Werkzeug==1.0.1
 xlrd==1.2.0
 zipp==3.4.1
+streamlit==1.9.0
